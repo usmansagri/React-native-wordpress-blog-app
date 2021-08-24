@@ -4,9 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from "./screens/home";
-import CategoryScreen from "./screens/blog-categorie";
+import CategoryPostScreen from "./screens/blog-categorie";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BlogReader from "./screens/blog-page";
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -34,7 +35,7 @@ export default function App() {
       })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Categories" component={CategoryScreen} />
+        <Tab.Screen name="Categories" component={CategoryPostScreen}  options={{headerShown:false}}/>
       </Tab.Navigator>
       <StatusBar style="auto"/>
     </NavigationContainer>

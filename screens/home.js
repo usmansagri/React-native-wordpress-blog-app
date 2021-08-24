@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View,Image, } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View,Image, StyleSheet, SafeAreaView } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
 export default function HomeScreen(){
     const [isLoading, setLoading] = useState(true);
+    const [isFetching, setIsFetching] = useState(false);
     const [post, setPostData] = useState([]);
 
     const getBlogPosts = async () => {
@@ -12,12 +13,25 @@ export default function HomeScreen(){
          const jsonPost = await response.json();
          setPostData(jsonPost);
        } catch (error) {
-         Alert.alert(error);
-       } finally {
+         setIsFetching(false);
          setLoading(false);
+         Alert.alert("Connection Error","Check your connection and try again.");
+       } finally {
+        setTimeout(() => {
+          setIsFetching(false);
+          setLoading(false);
+      }, 3000);
+          
        }
      }
 
+
+     const onRefresh = () => {
+     setIsFetching(true);
+      getBlogPosts();
+    };
+
+    
      const getBlogPostsImage = async (id) => {
       try {
        const response = await fetch('http://wp.devlops.xyz/wp-json/wp/v2/media/'+id);
@@ -47,19 +61,16 @@ export default function HomeScreen(){
           color: '#fff',
           
         },
-        a:{
-          color:'#fff',
-          fontWeight:'bold'
-        }
-        
+
       };
 
-      
-
     return(
-         <View style={{ flex: 1, padding: 0 }}>
-               {isLoading ? <ActivityIndicator/> : (
+      <SafeAreaView style={styles.container}> 
+        <View>
+               {isLoading ? <ActivityIndicator /> : (
          <FlatList 
+         onRefresh={onRefresh}
+         refreshing={isFetching}
           data={post}
           keyExtractor={({ id },index) => id}
           renderItem={({ item }) => (
@@ -74,18 +85,22 @@ export default function HomeScreen(){
 
 
               <Text style={{fontWeight:'bold',color:'#fff',fontSize:20,marginTop:5}}>{item.title.rendered}</Text>
+              <Text style={{color:'#fff',marginTop:5}}>{item.date}</Text>
               <RenderHtml source={getContent(item)} tagsStyles={tagsStyles} />
-              <Text style={{color:'#fff',marginTop:10}}>Published: {item.date}</Text>
               </View>
             </TouchableOpacity>
           )
         }
         />
-        
       )}
-     
-    </View>
-        
+      </View>
+      </SafeAreaView>   
     );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
