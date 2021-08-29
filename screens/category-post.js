@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React,{useState,useEffect} from 'react';
-import { render } from 'react-dom';
-import { StyleSheet, Text, View,ActivityIndicator,FlatList, Alert,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,ActivityIndicator,FlatList, Alert,TouchableOpacity,Dimensions,Image } from 'react-native';
+import init from "../config/init"
 
-export default function CategoryPost({route}){
-    const [isLoading, setLoading] = useState(true);
+export default function CategoryPost({route,navigation}){
+    const [isLoading, setLoading] = useState(false);
     const [blogcatid,setCatId]=useState();
     const [catPost, setCatPostData] = useState([]);
     const { catid } = route.params;
@@ -16,17 +15,16 @@ export default function CategoryPost({route}){
 
     const getCatBlogPosts = async (id) => {
       try {
-       const response = await fetch('http://wp.devlops.xyz/wp-json/wp/v2/posts/?categories='+id);
+       const response = await fetch(init.url+'/wp-json/wp/v2/posts/?categories='+id);
        const jsonPost = await response.json();
        setCatPostData(jsonPost);
-       //Alert.alert(jsonPost.title.rendered);
      } catch (error) {
        setLoading(false);
        Alert.alert("Connection Error","Check your connection and try again.");
      } finally {
       setTimeout(() => {
         setLoading(false);
-    }, 3000);
+    }, 1000);
      }
    }
   
@@ -34,9 +32,10 @@ export default function CategoryPost({route}){
 
     useEffect(() => {
         try {
+          setLoading(true);
           getCatId(catid);
         } catch (error) {
-          Alert.alert("Error in useEffect")
+          Alert.alert("useEffect error.")
         }
       }, []);
 
@@ -48,18 +47,14 @@ export default function CategoryPost({route}){
           data={catPost}
           keyExtractor={({ id },index) => id}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => Alert.alert('Blog reader feature will be available soon!')}>
-              <View style={{padding:5,backgroundColor:'#5844ed',margin:5}}>
-
-
-              {/* Unable to fetch image here using following technique */}
-                {/* {item.featured_media>0?<Image style={{width:Dimensions.width,height:250}} source={{
-                  uri: getBlogPostsImage(item.featured_media)
-                }}/>:null} */}
-
-
-              <Text style={{fontWeight:'bold',color:'#fff',fontSize:20,marginTop:5}}>{item.title.rendered}</Text>
-              <Text style={{color:'#fff',marginTop:5}}>{item.date}</Text>
+            <TouchableOpacity onPress={() =>  navigation.navigate('CatPostModal',{
+              postId:item.id
+            })}>
+              <View style={{padding:5,backgroundColor:'#fff',borderBottomWidth:1,borderColor:'#eee'}}>
+              {item.featured_media>0?<Image style={{width:Dimensions.width,height:180,}} source={{
+                  uri: item.imageLink
+                }}/>:null}
+              <Text style={{fontWeight:'bold',color:'#3578e5',fontSize:20,marginTop:5}}>{item.title.rendered}</Text>
               </View>
             </TouchableOpacity>
           )
@@ -67,14 +62,12 @@ export default function CategoryPost({route}){
         />
       )}
       </View>
-  
     )
 }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       justifyContent: 'center',
       
     },

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import init from "../config/init"
 
 export default function CategoryList({navigation})  {
   const [isLoading, setLoading] = useState(true);
@@ -7,7 +8,7 @@ export default function CategoryList({navigation})  {
 
   const getBlogCategories = async () => {
      try {
-      const response = await fetch('http://wp.devlops.xyz/wp-json/wp/v2/categories/');
+      const response = await fetch(init.url+'/wp-json/wp/v2/categories/');
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -15,7 +16,7 @@ export default function CategoryList({navigation})  {
     } finally {
         setTimeout(() => {
             setLoading(false);
-        }, 3000);
+        }, 1000);
     }
   }
   
