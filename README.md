@@ -12,12 +12,12 @@ React native blog app using wordpress API.
 
 ## Screenshots
 
-![Home](http://usman.sagri.co.in/github/my-blog/Home.jpeg)
+![Home](http://usman.sagri.co.in/github/my-blog/Home.jpg)
 ![Categories](http://usman.sagri.co.in/github/my-blog/Categoties.jpg)
 ![Category post view](http://usman.sagri.co.in/github/my-blog/Category-post-view.jpeg)
 
 ## Demo
 
-Install Expo go from App store/Play store to run this App
+Install Expo go from App store/Play store and goto URL below to run this App
 
-[LINK](exp://exp.host/@usman.io/my-blog)
+_exp://exp.host/@usman.io/my-blog_
