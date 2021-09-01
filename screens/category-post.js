@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View,ActivityIndicator,FlatList, Alert,TouchableOpacity,Dimensions,Image } from 'react-native';
 import init from "../config/init"
+import moment from 'moment';
 
 export default function CategoryPost({route,navigation}){
     const [isLoading, setLoading] = useState(false);
@@ -55,6 +56,7 @@ export default function CategoryPost({route,navigation}){
                   uri: item.imageLink
                 }}/>:null}
               <Text style={{fontWeight:'bold',color:'#3578e5',fontSize:20,marginTop:5}}>{item.title.rendered}</Text>
+              <Text style={{color:'#000',marginTop:10,fontWeight:'bold'}}>Published {moment(item.date).startOf('hour').fromNow()}</Text>
               </View>
             </TouchableOpacity>
           )

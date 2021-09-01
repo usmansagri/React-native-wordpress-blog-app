@@ -12,8 +12,8 @@ React native blog app using wordpress API.
 
 ## Screenshots
 
-![Home](http://usman.sagri.co.in/github/my-blog/Home.jpg)
-![Categories](http://usman.sagri.co.in/github/my-blog/Categoties.jpg)
+![Home](http://usman.sagri.co.in/github/my-blog/Home.jpeg)
+![Categories](http://usman.sagri.co.in/github/my-blog/Categoties.jpeg)
 ![Category post view](http://usman.sagri.co.in/github/my-blog/Category-post-view.jpeg)
 
 ## Demo
