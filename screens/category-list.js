@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import init from "../config/init"
+import { SkeletonLayout } from "react-native-skeleton-loader-pulse";
 
 export default function CategoryList({navigation})  {
   const [isLoading, setLoading] = useState(true);
@@ -8,11 +9,11 @@ export default function CategoryList({navigation})  {
 
   const getBlogCategories = async () => {
      try {
-      const response = await fetch(init.url+'/wp-json/wp/v2/categories/');
+      const response = await fetch(init.url+'/wp-json/wp/v2/categories');
       const json = await response.json();
       setData(json);
     } catch (error) {
-      Alert.alert("Connection Error","Check your connection and try again.");
+      Alert.alert("Error",""+error);
     } finally {
         setTimeout(() => {
             setLoading(false);
@@ -25,11 +26,103 @@ export default function CategoryList({navigation})  {
   }, []);
 
   return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView>
         <View>
-      {isLoading ? <ActivityIndicator/> : (
+      {isLoading ? 
+      
+      <SkeletonLayout
+      align="center"
+      items={[
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        },
+        {
+          height: 55,
+          margin: 5,
+          padding:20,
+          width: Dimensions.width,
+        }
+      ]}
+    />
+      : (
         
-        <FlatList 
+        <FlatList
+        style={{height:'100%'}}
           data={data}
           keyExtractor={({ id },index) => id}
           renderItem={({ item }) => (
@@ -51,7 +144,6 @@ export default function CategoryList({navigation})  {
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor:'#fff',
       justifyContent: 'center'
     },
   });
