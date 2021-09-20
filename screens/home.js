@@ -5,10 +5,14 @@ import init from "../config/init";
 import moment from 'moment';
 import { SkeletonLayout } from "react-native-skeleton-loader-pulse";
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
     const [isLoading, setLoading] = useState(true);
     const [isFetching, setIsFetching] = useState(false);
     const [post, setPostData] = useState([]);
+
+    useEffect(() => {
+      getBlogPosts();
+    }, []);
 
     const getBlogPosts = async () => {
         try {
@@ -31,13 +35,7 @@ export default function HomeScreen(){
      setIsFetching(true);
      getBlogPosts();
     };
-
-    
-     useEffect(() => {
-        getBlogPosts();
-      }, []);
       
-
       const getExcerpt = (item)=>{
         const source = {
           html: item.excerpt.rendered
@@ -61,7 +59,7 @@ export default function HomeScreen(){
                align="left"
                items={[
                  {
-                   height: 180,
+                   height: 200,
                    width: Dimensions.width,
                  },
                  {
@@ -106,7 +104,7 @@ export default function HomeScreen(){
                align="left"
                items={[
                  {
-                   height: 180,
+                   height: 200,
                    width: Dimensions.width,
                  },
                  {
@@ -151,7 +149,7 @@ export default function HomeScreen(){
           align="left"
           items={[
             {
-              height: 180,
+              height: 200,
               width: Dimensions.width,
             },
             {
@@ -184,9 +182,11 @@ export default function HomeScreen(){
           data={post}
           keyExtractor={({ id },index) => id}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={()=>Alert.alert("Coming soon","Blog reader feature will be available soon!")}>
+            <TouchableOpacity onPress={() =>  navigation.navigate('Reader',{
+              postId:item.id
+            })}>
               <View style={{padding:5,backgroundColor:'#fff',marginBottom:2}}>
-                {item.featured_media>0?<Image style={{width:Dimensions.width,height:180}} source={{
+                {item.featured_media>0?<Image style={{width:Dimensions.width,height:200}} source={{
                   uri: item.imageLink
                 }}/>:null}
               <Text style={{fontWeight:'bold',color:'#3578e5',fontSize:20,marginTop:5}}>{item.title.rendered}</Text>

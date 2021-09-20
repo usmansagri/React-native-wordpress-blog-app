@@ -7,6 +7,10 @@ export default function CategoryList({navigation})  {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
+  useEffect(() => {
+    getBlogCategories();
+  }, []);
+  
   const getBlogCategories = async () => {
      try {
       const response = await fetch(init.url+'/wp-json/wp/v2/categories');
@@ -21,9 +25,6 @@ export default function CategoryList({navigation})  {
     }
   }
   
-  useEffect(() => {
-    getBlogCategories();
-  }, []);
 
   return (
       <SafeAreaView>

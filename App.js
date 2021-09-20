@@ -11,10 +11,9 @@ import BlogReader from "./screens/blog-page";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator 
+function TabNav(){
+  return(
+    <Tab.Navigator 
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -37,6 +36,20 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Categories" component={CategoryPostScreen}  options={{headerShown:false}}/>
       </Tab.Navigator>
+  );
+
+}
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={TabNav}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Reader" component={BlogReader} />
+      </Stack.Navigator>
       <StatusBar style="auto"/>
     </NavigationContainer>
     
